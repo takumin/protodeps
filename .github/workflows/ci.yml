@@ -110,7 +110,4 @@ jobs:
     # Check Different
     ################################################################################
     - name: Check Different
-      run: |
-        git add .
-        git diff origin/${{ github.ref_name }}
-        test "$(git diff --name-only origin/${{ github.ref_name }} | wc -l)" -gt 0 && exit 1
+      run: git add -N . && git diff --exit-code origin/${{ github.ref_name }}
