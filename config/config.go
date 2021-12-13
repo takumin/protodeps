@@ -11,9 +11,9 @@ type Dependency struct {
 }
 
 type Config struct {
-	CacheDir     string
-	OutputDir    string
-	Dependencies []Dependency
+	CacheDir     string `json:"cache_dir" yaml:"cache_dir" toml:"cache_dir"`
+	OutputDir    string `json:"output_dir" yaml:"output_dir" toml:"output_dir"`
+	Dependencies map[string]Dependency
 }
 
 func NewConfig(opts ...Option) *Config {

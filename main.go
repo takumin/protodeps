@@ -1,16 +1,12 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path"
 
 	"github.com/adrg/xdg"
-	"github.com/goccy/go-yaml"
-	"github.com/pelletier/go-toml"
 	"github.com/urfave/cli/v2"
 
 	"github.com/takumin/protodeps/commands/completion"
@@ -32,15 +28,21 @@ func main() {
 
 	flags := []cli.Flag{
 		&cli.StringFlag{
-			Name:    "cache-dir",
+			Name:    "config",
 			Aliases: []string{"c"},
+			Usage:   "config filepath",
+			EnvVars: []string{"PROTODEPS_CONFIG", "CONFIG"},
+		},
+		&cli.StringFlag{
+			Name:    "cache-dir",
+			Aliases: []string{"cache"},
 			Usage:   "cache directory",
 			Value:   config.CacheDir,
 			EnvVars: []string{"PROTODEPS_CACHE_DIR", "CACHE_DIR"},
 		},
 		&cli.StringFlag{
 			Name:    "output-dir",
-			Aliases: []string{"o"},
+			Aliases: []string{"output"},
 			Usage:   "output directory",
 			Value:   config.OutputDir,
 			EnvVars: []string{"PROTODEPS_OUTPUT_DIR", "OUTPUT_DIR"},
@@ -65,41 +67,26 @@ func main() {
 	}
 }
 
-func before(c *config.Config) func(ctx *cli.Context) error {
+func before(cfg *config.Config) func(ctx *cli.Context) error {
 	return func(ctx *cli.Context) error {
-		if _, err := os.Stat(".protodeps.json"); err == nil {
-			b, err := ioutil.ReadFile(".protodeps.json")
-			if err != nil {
-				return err
-			}
-			if err := json.Unmarshal(b, &c); err != nil {
-				return err
-			}
-		} else if _, err := os.Stat(".protodeps.yml"); err == nil {
-			b, err := ioutil.ReadFile(".protodeps.yml")
-			if err != nil {
-				return err
-			}
-			if err := yaml.Unmarshal(b, &c); err != nil {
-				return err
-			}
-		} else if _, err := os.Stat(".protodeps.yaml"); err == nil {
-			b, err := ioutil.ReadFile(".protodeps.yaml")
-			if err != nil {
-				return err
-			}
-			if err := yaml.Unmarshal(b, &c); err != nil {
-				return err
-			}
-		} else if _, err := os.Stat(".protodeps.toml"); err == nil {
-			b, err := ioutil.ReadFile(".protodeps.toml")
-			if err != nil {
-				return err
-			}
-			if err := toml.Unmarshal(b, &c); err != nil {
-				return err
-			}
+		if err := cfg.LoadIfExist(
+			ctx.String("config"),
+			".protodeps.json",
+			".protodeps.yaml",
+			".protodeps.yml",
+			".protodeps.toml",
+		); err != nil {
+			return err
 		}
+
+		if ctx.IsSet("cache-dir") {
+			cfg.CacheDir = ctx.String("cache-dir")
+		}
+
+		if ctx.IsSet("output-dir") {
+			cfg.OutputDir = ctx.String("output-dir")
+		}
+
 		return nil
 	}
 }
