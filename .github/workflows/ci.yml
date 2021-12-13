@@ -110,4 +110,4 @@ jobs:
     # Check Different
     ################################################################################
     - name: Check Different
-      run: git add -N . && git diff --exit-code origin/${{ github.ref_name }}
+      run: git add -N . && git diff --exit-code --no-prefix origin/${{ github.ref_name }}
