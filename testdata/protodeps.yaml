@@ -1,0 +1,17 @@
+output_dir: 'proto/vendor'
+
+dependencies:
+  googleapis:
+    source:   'https://github.com/googleapis/googleapis.git'
+    branch:   'master'
+    commit:   ''
+    tag:      ''
+    licenses:
+    - 'LICENSE'
+    includes:
+    - 'google/api/annotations.proto'
+    - 'google/api/field_behaviour.proto'
+    - 'google/api/http.proto'
+    - 'google/api/httpbody.proto'
+    excludes:
+    - ''
