@@ -20,6 +20,7 @@ func (c *Config) LoadIfExist(files ...string) error {
 		}
 		if _, err := os.Stat(v); err == nil {
 			f = v
+			break
 		}
 	}
 
