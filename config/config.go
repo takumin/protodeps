@@ -1,7 +1,19 @@
 package config
 
+type Dependency struct {
+	Source   string
+	Branch   string
+	Commit   string
+	Tag      string
+	Licenses []string
+	Includes []string
+	Excludes []string
+}
+
 type Config struct {
-	LogLevel string
+	CacheDir     string
+	OutputDir    string
+	Dependencies []Dependency
 }
 
 func NewConfig(opts ...Option) *Config {

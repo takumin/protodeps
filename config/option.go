@@ -4,8 +4,14 @@ type Option interface {
 	Apply(*Config)
 }
 
-type LogLevel string
+type OutputDir string
 
-func (o LogLevel) Apply(c *Config) {
-	c.LogLevel = string(o)
+func (o OutputDir) Apply(c *Config) {
+	c.OutputDir = string(o)
+}
+
+type CacheDir string
+
+func (o CacheDir) Apply(c *Config) {
+	c.CacheDir = string(o)
 }
