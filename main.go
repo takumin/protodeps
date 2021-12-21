@@ -10,6 +10,7 @@ import (
 	"github.com/urfave/cli/v2"
 
 	"github.com/takumin/protodeps/commands/completion"
+	"github.com/takumin/protodeps/commands/ensure"
 	"github.com/takumin/protodeps/config"
 )
 
@@ -51,6 +52,7 @@ func main() {
 
 	cmds := []*cli.Command{}
 	cmds = append(cmds, completion.NewCommands(config, flags)...)
+	cmds = append(cmds, ensure.NewCommands(config, flags)...)
 
 	app := &cli.App{
 		Name:                 AppName,

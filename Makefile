@@ -34,7 +34,7 @@ install: $(SRCS)
 
 .PHONY: run
 run: bin/$(APPNAME)
-	bin/$(APPNAME)
+	bin/$(APPNAME) ensure
 
 .PHONY: archive
 archive: bin/$(APPNAME).zip
