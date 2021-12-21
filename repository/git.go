@@ -14,7 +14,7 @@ type Repository struct {
 func NewRepository(dir string) (*Repository, error) {
 	var repo *git.Repository
 
-	if _, err := os.Stat(dir); err == nil {
+	if fi, err := os.Stat(dir); err == nil && fi.IsDir() {
 		repo, err = git.PlainOpen(dir)
 		if err != nil {
 			return nil, err
