@@ -8,5 +8,5 @@ require (
 	github.com/go-git/go-git/v5 v5.4.2
 	github.com/goccy/go-yaml v1.9.4
 	github.com/pelletier/go-toml v1.9.4
-	github.com/urfave/cli/v2 v2.3.0
+	github.com/urfave/cli/v2 v2.14.1
 )
